@@ -3,8 +3,8 @@
 실행 방법 (Windows)
 1. start.bat을 실행합니다.
 2. 브라우저에서 http://localhost:8501 에 접속합니다.
-   Streamlit 화면이 열리면 내장 Flask 서버도 시작됩니다.
-3. React 화면만 보려면 http://localhost:5000 에 접속합니다.
+   Streamlit이 React 화면을 직접 제공합니다. 별도 Flask 서버는 필요 없습니다.
+3. Flask API 개발용 화면은 python server.py 실행 후 http://localhost:5000 에 접속합니다.
 4. 종료하려면 실행한 터미널에서 Ctrl+C를 누릅니다.
 
 현재 프로젝트에는 의존성 설치와 React 빌드가 완료되어 있습니다.
@@ -18,20 +18,33 @@ Python 3.11 이상, Node.js 20.19 이상이 필요합니다.
   npm.cmd run build
   .\.venv\Scripts\python.exe -m streamlit run app.py
 
+Streamlit Community Cloud 배포
+1. React 화면을 수정했다면 로컬 프로젝트 폴더에서 빌드합니다.
+   Windows PowerShell: npm.cmd ci 후 npm.cmd run build
+   macOS/Linux: npm ci 후 npm run build
+2. 변경한 소스 파일과 dist 폴더를 GitHub 저장소에 함께 올립니다.
+   dist/index.html, dist/assets/*, dist/reference.png가 모두 필요합니다.
+   dist는 배포에 필요한 빌드 결과이므로 .gitignore에서 제외하지 않습니다.
+3. Streamlit Community Cloud에서 해당 저장소/브랜치를 선택하고
+   Main file path를 app.py로 설정합니다. 기존 앱은 변경사항 반영 후 필요하면 Reboot합니다.
+서버에서는 requirements.txt의 Python 패키지만 설치하면 됩니다.
+Node.js/npm 설치와 React 빌드는 로컬에서 수행하며 배포 서버에는 필요 없습니다.
+현재 Streamlit 화면은 기존 예시 데이터와 상담 체험을 사용합니다.
+Flask의 5000번 포트를 외부에 열거나 별도 HTTPS 서버를 설정할 필요가 없습니다.
+
 모바일 테스트
 PC와 휴대폰을 같은 Wi-Fi에 연결합니다.
-먼저 PC에서 http://localhost:8501 에 접속하여 Flask 서버를 시작합니다.
-휴대폰에서 http://PC의IPv4주소:5000 에 접속합니다.
+PC에서 Streamlit을 실행한 뒤 휴대폰에서 http://PC의IPv4주소:8501 에 접속합니다.
 PC의 주소는 PowerShell에서 ipconfig 명령으로 확인할 수 있습니다.
 Windows 방화벽에서 Python의 개인 네트워크 접근이 허용되어야 합니다.
 Streamlit 화면도 http://PC의IPv4주소:8501 에서 볼 수 있습니다.
-로컬 HTTP 테스트용이며 HTTPS 배포 설정은 포함하지 않습니다.
+Streamlit Community Cloud에서는 배포된 HTTPS 주소로 접속합니다.
 
 사용 기술
 - Python: 예시 데이터 처리와 위험 단계 계산
 - Flask (server.py): 데이터 API, 상담 체험 API, React 정적 파일 제공
 - React (src/main.jsx): 반응형 화면, 그래프, 등록 및 단계 전환
-- Streamlit (app.py): Flask 서버를 시작하고 React 화면을 표시하는 실행 화면
+- Streamlit (app.py): 빌드된 React 화면을 같은 주소의 컴포넌트로 제공 (예시 데이터 모드)
 
 화면과 기능
 - 첨부 이미지의 6단계 화면, 수온/보험 시뮬레이션, 기능 요약 재현

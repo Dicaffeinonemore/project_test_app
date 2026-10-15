@@ -15,7 +15,7 @@ call npm.cmd run build
 if errorlevel 1 goto error
 echo.
 echo Open http://localhost:8501 in your browser.
-echo Mobile: use http://YOUR_PC_IP:5000 on the same Wi-Fi.
+echo Mobile: use http://YOUR_PC_IP:8501 on the same Wi-Fi.
 echo.
 ".venv\Scripts\python.exe" -m streamlit run app.py
 if errorlevel 1 goto error

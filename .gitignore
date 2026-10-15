@@ -2,7 +2,7 @@
 .venv/
 __pycache__/
 node_modules/
-dist/
+# Streamlit 배포에는 미리 빌드한 dist/ 파일도 함께 포함합니다.
 *.log
 .npm-cache/
 test-results/
